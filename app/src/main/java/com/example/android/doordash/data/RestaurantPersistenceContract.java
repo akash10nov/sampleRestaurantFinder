@@ -10,14 +10,5 @@ public final class RestaurantPersistenceContract {
         public static final String COLUMN_NAME_RESTAURANT_TAGS = "restaurantTags";
         public static final String COLUMN_NAME_RESTAURANT_POSTER_PATH = "posterPath";
         public static final String COLUMN_NAME_RESTAURANT_STATUS = "distance";
-        /*
-         mId = id;
-        mTitle = title;
-        mTags = tags;
-        mAvgRating = avg_rating;
-        mStatus = asapTime;
-        mPosterPath = coverImage;
-        mStatusType = statusType;
-         */
     }
 }

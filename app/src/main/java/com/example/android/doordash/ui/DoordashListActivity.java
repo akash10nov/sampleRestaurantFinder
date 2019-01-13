@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.android.doordash.R;
 import com.example.android.doordash.data.RestaurantLocalDataSource;
+import com.example.android.doordash.data.RestaurantsRepository;
 
 public class DoordashListActivity extends AppCompatActivity {
 
@@ -19,10 +20,11 @@ public class DoordashListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doordash_list);
-        mLastFetchTime = getSharedPreferences(DOORDASH_PREF,Context.MODE_PRIVATE);
+        mLastFetchTime = getSharedPreferences(DOORDASH_PREF, Context.MODE_PRIVATE);
         DoordashListFragment doordashListFragment = (DoordashListFragment) getSupportFragmentManager().findFragmentById(R.id.restaurants_fragment);
         RestaurantLocalDataSource restaurantLocalDataSource = new RestaurantLocalDataSource(getApplicationContext());
-        mRestaurantsPresenter = new RestaurantsPresenter(doordashListFragment, restaurantLocalDataSource, mLastFetchTime);
+        RestaurantsRepository restaurantsRepository = new RestaurantsRepository(restaurantLocalDataSource);
+        mRestaurantsPresenter = new RestaurantsPresenter(doordashListFragment, restaurantsRepository, mLastFetchTime);
     }
 }
 

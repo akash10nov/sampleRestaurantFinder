@@ -4,22 +4,21 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.android.doordash.data.RestaurantLocalDataSource;
-import com.example.android.doordash.utils.RestaurantsApiHelper;
+import com.example.android.doordash.data.RestaurantsRepository;
 
 public class RestaurantsPresenter implements RestaurantContract.Presenter {
     private final static long MILLI_SEC_IN_1_MIN = 60000l;
     private final static String LAST_FETCH_TIME = "last_fetch_time";
     private final RestaurantContract.View mRestaurantView;
-    private RestaurantLocalDataSource mRestaurantLocalDataSource;
+    private RestaurantsRepository mRestaurantsRepository;
     private SharedPreferences mLastFetchTime;
 
 
     public RestaurantsPresenter(@NonNull RestaurantContract.View restaurantsView,
-                                RestaurantLocalDataSource restaurantLocalDataSource,
+                                RestaurantsRepository restaurantsRepository,
                                 SharedPreferences lastFetchTime) {
         mRestaurantView = restaurantsView;
-        mRestaurantLocalDataSource = restaurantLocalDataSource;
+        mRestaurantsRepository = restaurantsRepository;
         mLastFetchTime = lastFetchTime;
         mRestaurantView.setPresenter(this);
     }
@@ -35,10 +34,10 @@ public class RestaurantsPresenter implements RestaurantContract.Presenter {
                 try {
                     // We can control this usually through experiment manager, we can fetch data every 1 minute or every 1 hour
                     if ((System.currentTimeMillis() - time) > MILLI_SEC_IN_1_MIN) {
-                        RestaurantsApiHelper.getRestaurants()
+                        mRestaurantsRepository.getRestaurants()
                                 .doOnNext(restaurants -> {
                                             // Would add something around here to see if I really need to fetch data, if not then only this thread will run
-                                            mRestaurantLocalDataSource.storeDataLocally(restaurants);
+                                            mRestaurantsRepository.storeDataLocally(restaurants);
                                             mLastFetchTime.edit().putLong(LAST_FETCH_TIME, System.currentTimeMillis()).apply();
                                             mRestaurantView.showRestaurants(restaurants);
                                         }
@@ -47,7 +46,7 @@ public class RestaurantsPresenter implements RestaurantContract.Presenter {
                         })
                                 .subscribe();
                     } else {
-                        mRestaurantLocalDataSource.fetchLocalRestaurantList()
+                        mRestaurantsRepository.fetchLocalRestaurantList()
                                 .doOnNext(restaurants -> {
                                             mRestaurantView.showRestaurants(restaurants);
                                         }
