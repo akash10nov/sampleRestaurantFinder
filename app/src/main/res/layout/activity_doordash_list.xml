@@ -3,10 +3,10 @@
     android:id="@+id/movies_activity_now_showing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.doordash.ui.DoordashListActivity">
+    tools:context="com.example.android.doordash.ui.RestaurantsActivity">
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.android.doordash.ui.DoordashListFragment"
+        android:name="com.example.android.doordash.ui.RestaurantsFragment"
         android:id="@+id/restaurants_fragment" />
 </RelativeLayout>

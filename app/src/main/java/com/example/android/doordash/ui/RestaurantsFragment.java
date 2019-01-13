@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class DoordashListFragment extends Fragment implements RestaurantContract.View {
+public class RestaurantsFragment extends Fragment implements RestaurantContract.View {
 
     private RestaurantContract.Presenter mPresenter;
     RestaurantAdapter mRestaurantAdapter;
